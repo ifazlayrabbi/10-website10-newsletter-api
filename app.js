@@ -2,6 +2,7 @@
 
 const express = require('express')
 const app = express()
+require('dotenv').config()
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
@@ -14,7 +15,6 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: true}))
 
 const https = require('https')
-require('dotenv').config()
 
 
 
