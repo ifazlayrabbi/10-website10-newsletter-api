@@ -1,0 +1,15 @@
+http post problem:
+	- making post by following tutorial
+	- making post by following documentation
+
+
+
+http post on cloud server:
+API_KEY Problem
+---------------
+	- Problem arised - Output result wasn't coming.
+	- terminal - statusCode: Forbidden => API_KEY is disabled
+	- API_KEY public problem
+	- Make API_KEY secrect using 'Environment variable'
+	- Learn .env (local & cloud)
+	- Learn .gitignore
