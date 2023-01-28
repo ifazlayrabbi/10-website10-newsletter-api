@@ -1,0 +1,6 @@
+
+Cannot use dataA - 
+resp.on('data', (d) => {
+      dataA += d
+})
+outside of this function.

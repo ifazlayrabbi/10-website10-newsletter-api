@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
+
 app.post('/', (req, res) => {
   const firstName = req.body.name1st
   const lastName = req.body.name2nd
@@ -42,7 +43,7 @@ app.post('/', (req, res) => {
     }]
   })
 
-  console.log(data)
+
 
   
 
@@ -60,36 +61,87 @@ app.post('/', (req, res) => {
     method: 'POST'
   }
 
-  const postData = https.request(url, options, (post_Data) => {
-    console.log('statusCode: ' + post_Data.statusCode)
+  const url_get = 'https://us21.api.mailchimp.com/3.0/lists/3b06d50b03/members?count=1000'
+  const options_get = {
+    auth: 'anystring123:'+api_key,
+    method: 'GET'
+  }
 
-    post_Data.on('data', (dataA) => {
-      console.log(dataA)
-      // console.log(JSON.parse(dataA))
+  
+
+
+
+  https.get(url_get, options_get, (resp) => {
+    console.log('Data getting statusCode: '+resp.statusCode)
+
+    let dataA = ''
+    resp.on('data', (d) => {
+      dataA += d
     })
 
-    post_Data.on('end', () => {
-      console.log('All data are shown.')
-    })
+    resp.on('end', () => {
+      dataA = JSON.parse(dataA)
+      let total = dataA.total_items
 
-    if(post_Data.statusCode == 200)
-      res.sendFile(__dirname + '/success.html')
-    else
+      let found = 0
+      for(let i=0; i<total; i++){
+        if(email == dataA.members[i].email_address){
+          res.sendFile(__dirname+'/same_email.html')
+          found = 1
+        }
+      }
+      
+      if(found == 0)
+        new_member()
+
+    })
+  })
+
+
+
+
+
+
+  function new_member(){
+    const postData = https.request(url, options, (postingData) => {
+      console.log('Data posting statusCode: ' + postingData.statusCode)
+  
+      postingData.on('data', (d) => {
+        console.log(d)
+        // console.log(JSON.parse(dataA))
+      })
+  
+      postingData.on('end', () => {
+        console.log('All data are sent.')
+      })
+  
+      if(postingData.statusCode == 200)
+        res.sendFile(__dirname + '/success.html')
+      else
+        res.sendFile(__dirname + '/failure.html')
+  
+    })
+  
+    postData.on('error', (e) => {
+      console.error('Problem with request: ' + e.message)
       res.sendFile(__dirname + '/failure.html')
-
-  })
-
-  postData.on('error', (e) => {
-    console.error('Problem with request: ' + e.message)
-    res.sendFile(__dirname + '/failure.html')
-  })
-
-  postData.write(data)
-  postData.end() 
+    })
+  
+    postData.write(data)
+    postData.end()
+  }
 
 })
 
 
+
+
+
+
+
+app.post('/same_email', (req, res) => {
+  res.redirect('/')
+})
 
 app.post('/failure', (req, res) => {
   res.redirect('/')
