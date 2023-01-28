@@ -1,6 +1,6 @@
 http post problem:
-	- making post by following tutorial
-	- making post by following documentation
+	- http post by following node.js documentation
+	- http post by following api-server documentation
 
 
 
