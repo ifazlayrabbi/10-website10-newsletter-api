@@ -1,7 +1,7 @@
 # site10-newsletter-api
-Website: https://newsletter-fz.onrender.com
+Website: https://newsletter-fr.onrender.com
 
-(it will take 30 to 40 seconds to load, please keep patience.)
+(As this project is hosted on free tier, it will take around 1m to load.)
 
 Newsletter subscription - using api 
 - nodejs backend.
